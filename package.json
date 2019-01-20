@@ -1,0 +1,24 @@
+{
+  "name": "moleculer-db-rethinkdb",
+  "version": "0.0.1",
+  "description": "Moleculer service to support rethinkdb",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cantecim/moleculer-db-rethinkdb.git"
+  },
+  "keywords": [
+    "microservice",
+    "moleculer",
+    "rethinkdb"
+  ],
+  "author": "Can Tecim <can.tecim@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cantecim/moleculer-db-rethinkdb/issues"
+  },
+  "homepage": "https://github.com/cantecim/moleculer-db-rethinkdb#readme"
+}
