@@ -53,7 +53,7 @@ class RethinkDBAdapter {
         this.table = table;
 
         return new Promise(function (resolve, reject) {
-            r.connect(this.opts, function (err, conn) {
+            r.connect(...this.opts, function (err, conn) {
                 if (err) reject(err);
                 this.client = conn;
                 conn.use(database);
