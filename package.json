@@ -26,7 +26,8 @@
     "homepage": "https://github.com/cantecim/moleculer-db-rethinkdb#readme",
     "devDependencies": {
         "eslint": "^5.12.1",
-        "moleculer": "^0.13.5"
+        "moleculer": "^0.13.5",
+        "moleculer-db": "^0.7.7"
     },
     "dependencies": {
         "bluebird": "^3.5.3",
