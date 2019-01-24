@@ -6,7 +6,8 @@
     "scripts": {
         "lint": "eslint .",
         "test": "jest --coverage",
-        "ci": "jest --watch"
+        "ci": "jest --watch",
+        "coverall": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
     },
     "engines": {
         "node": ">= 6.x.x"
@@ -27,6 +28,7 @@
     },
     "homepage": "https://github.com/cantecim/moleculer-db-rethinkdb#readme",
     "devDependencies": {
+        "coveralls": "^3.0.2",
         "eslint": "^5.12.1",
         "jest": "^23.6.0",
         "moleculer": "^0.13.5",
