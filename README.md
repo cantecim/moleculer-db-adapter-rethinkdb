@@ -1,8 +1,10 @@
 ![Moleculer logo](http://moleculer.services/images/banner.png)
 
-# moleculer-db-adapter-rethinkdb [![NPM version](https://img.shields.io/npm/v/moleculer-db-adapter-rethinkdb.svg)](https://www.npmjs.com/package/moleculer-db-adapter-rethinkdb)
+# moleculer-db-adapter-rethinkdb  
+RethinkDB adapter for Moleculer DB service.  
 
-RethinkDB adapter for Moleculer DB service.
+[![NPM version](https://img.shields.io/npm/v/moleculer-db-adapter-rethinkdb.svg)](https://www.npmjs.com/package/moleculer-db-adapter-rethinkdb)
+![Downloads](https://img.shields.io/npm/dt/moleculer-db-adapter-rethinkdb.svg?colorB=green)
 
 ## Install
 
