@@ -4,7 +4,9 @@
     "description": "Moleculer service to support rethinkdb",
     "main": "index.js",
     "scripts": {
-        "lint": "eslint ."
+        "lint": "eslint .",
+        "test": "echo TO-DO",
+        "ci": "echo TO-DO"
     },
     "engines": {
         "node": ">= 6.x.x"
