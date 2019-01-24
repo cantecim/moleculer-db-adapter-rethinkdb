@@ -4,10 +4,6 @@
 
 RethinkDB adapter for Moleculer DB service.
 
-## Features
-- schemaless adapter
-- MongoDB driver v3.0
-
 ## Install
 
 ```bash
