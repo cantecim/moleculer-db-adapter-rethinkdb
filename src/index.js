@@ -355,7 +355,7 @@ class RethinkDBAdapter {
      * @param {Boolean} isCounting
      * @returns {RethinkDBCursor}
      */
-    createCursor(params, isCounting) {
+    createCursor(params, isCounting = false) {
         if (params) {
             let q;
             if (isCounting)

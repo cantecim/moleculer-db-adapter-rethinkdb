@@ -5,8 +5,8 @@
     "main": "index.js",
     "scripts": {
         "lint": "eslint .",
-        "test": "echo TO-DO",
-        "ci": "echo TO-DO"
+        "test": "jest --coverage",
+        "ci": "jest --watch"
     },
     "engines": {
         "node": ">= 6.x.x"
@@ -28,6 +28,7 @@
     "homepage": "https://github.com/cantecim/moleculer-db-rethinkdb#readme",
     "devDependencies": {
         "eslint": "^5.12.1",
+        "jest": "^23.6.0",
         "moleculer": "^0.13.5",
         "moleculer-db": "^0.7.7"
     },
@@ -35,5 +36,16 @@
         "bluebird": "^3.5.3",
         "lodash": "^4.17.11",
         "rethinkdb": "^2.3.3"
+    },
+    "jest": {
+        "coverageDirectory": "../coverage",
+        "testEnvironment": "node",
+        "coveragePathIgnorePatterns": [
+            "/node_modules/"
+        ],
+        "rootDir": "./src",
+        "roots": [
+            "../test"
+        ]
     }
 }
