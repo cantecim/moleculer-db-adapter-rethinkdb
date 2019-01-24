@@ -3,6 +3,8 @@
 # moleculer-db-adapter-rethinkdb  
 RethinkDB adapter for Moleculer DB service.  
 
+[![Coverage Status](https://coveralls.io/repos/github/cantecim/moleculer-db-adapter-rethinkdb/badge.svg?branch=master)](https://coveralls.io/github/cantecim/moleculer-db-adapter-rethinkdb?branch=master)
+[![Build Status](https://travis-ci.org/cantecim/moleculer-db-adapter-rethinkdb.svg?branch=master)](https://travis-ci.org/cantecim/moleculer-db-adapter-rethinkdb)
 [![NPM version](https://img.shields.io/npm/v/moleculer-db-adapter-rethinkdb.svg)](https://www.npmjs.com/package/moleculer-db-adapter-rethinkdb)
 ![Downloads](https://img.shields.io/npm/dt/moleculer-db-adapter-rethinkdb.svg?colorB=green)
 
