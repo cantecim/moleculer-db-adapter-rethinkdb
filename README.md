@@ -42,6 +42,22 @@ broker.start()
 
 // Get all posts
 .then(() => broker.call("posts.find").then(console.log));
+
+// Change feeds
+const { client: conn } = this.schema.adapter;
+// Lets get a rethinkdb.table instance
+const rTable = this.schema.adapter.getTable();
+// You can also get a rethinkdb instance with below
+// const rethinkdb = this.schema.adapter.getR();
+
+rTable.changes().run(conn, function(err, cursor) {
+    cursor.each(console.log);
+});
+
+// Map Reduce with same way
+rTable.map((user) => 1).run(conn);
+
+// You can access all underlying API
 ```
 
 ## Options

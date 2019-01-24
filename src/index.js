@@ -56,6 +56,9 @@ class RethinkDBAdapter {
             r.connect(...this.opts, function (err, conn) {
                 if (err) reject(err);
                 this.client = conn;
+                conn.on("close", () => {
+                    this.service.logger.warn("Disconnected from db");
+                });
                 conn.use(database);
 
                 Promise.resolve()
@@ -90,6 +93,7 @@ class RethinkDBAdapter {
                         });
                     })
                     .then(() => {
+                        this.service.logger.warn("Connected to db");
                         resolve(true);
                     });
             }.bind(this));
@@ -406,6 +410,24 @@ class RethinkDBAdapter {
      */
     afterRetrieveTransformID(entity, idField) {
         return entity;
+    }
+
+    /**
+     * Return rethinkdb instance
+     *
+     * @returns {*|rethinkdb}
+     */
+    getR() {
+        return r;
+    }
+
+    /**
+     * Return rethinkdb.table instance
+     *
+     * @returns {*|rethinkdb}
+     */
+    getTable() {
+        return r.table(this.table);
     }
 
 }
