@@ -1,6 +1,6 @@
 {
     "name": "moleculer-db-adapter-rethinkdb",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "Moleculer service to support rethinkdb",
     "main": "index.js",
     "scripts": {
