@@ -14,7 +14,8 @@ function protectReject(err) {
 
 const fakeConnection = {
     use: jest.fn(),
-    close: jest.fn(() => Promise.resolve())
+    close: jest.fn(() => Promise.resolve()),
+    on: jest.fn()
 };
 
 const fakeCursor = {
