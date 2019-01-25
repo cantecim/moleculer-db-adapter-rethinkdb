@@ -30,7 +30,8 @@ broker.createService({
     name: "posts",
     mixins: [DbService],
     adapter: new RethinkDBAdapter({host: "127.0.0.1" || "", port: 29015}),
-    collection: "posts"
+    database: "app",
+    table: "posts"
 });
 
 
