@@ -145,7 +145,7 @@ class RethinkDBAdapter {
         return new Promise(function (resolve, reject) {
             r.table(this.table).filter(query).limit(1).run(this.client, function (err, res) {
                 if (err) reject(err);
-                resolve(res.toArray());
+                resolve(res ? res.toArray(): []);
             });
         }.bind(this));
     }
@@ -179,7 +179,7 @@ class RethinkDBAdapter {
         return new Promise(function (resolve, reject) {
             r.table(this.table).getAll(r.args(idList)).run(this.client, function (err, res) {
                 if (err) reject(err);
-                resolve(res.toArray());
+                resolve(res ? res.toArray(): []);
             });
         }.bind(this));
     }
