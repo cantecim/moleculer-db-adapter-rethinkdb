@@ -54,7 +54,10 @@ class RethinkDBAdapter {
 
         return new Promise(function (resolve, reject) {
             r.connect(...this.opts, function (err, conn) {
-                if (err) reject(err);
+                if (err) {
+                    reject(err);
+                    return;
+                }
                 this.client = conn;
                 conn.on("close", () => {
                     this.service.logger.warn("Disconnected from db");
