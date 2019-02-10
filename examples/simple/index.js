@@ -89,8 +89,8 @@ checker.add("INSERT MANY", () => adapter.insertMany([
     {title: "Last", content: "Last document", votes: 1, status: false, createdAt: new Date()}
 ]), docs => {
     console.log("Saved: ", docs);
-    ids[1] = docs[1].id;
-    ids[2] = docs[0].id;
+    ids[1] = docs.filter(d => d.content.indexOf("Second post content") > -1)[0].id;
+    ids[2] = docs.filter(d => d.content.indexOf("Last document") > -1)[0].id;
 
     return [
         docs.length == 2,
