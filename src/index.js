@@ -150,7 +150,7 @@ class RethinkDBAdapter {
                 if (err) reject(err);
                 if(res)
                     res = res.toArray();
-                resolve(res.length ? res : null);
+                resolve(res.length ? res[0] : null);
             });
         }.bind(this));
     }
