@@ -151,7 +151,7 @@ class RethinkDBAdapter {
                 if(res) {
                     res = res.toArray();
                     res.then(function(docs) {
-                        resolve(docs.length ? Promise.resolve(res[0]) : Promise.resolve(null));
+                        resolve(docs.length ? Promise.resolve(docs[0]) : Promise.resolve(null));
                     });
                 } else {
                     resolve(Promise.resolve(null));
