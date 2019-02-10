@@ -148,7 +148,7 @@ class RethinkDBAdapter {
         return new Promise(function (resolve, reject) {
             r.table(this.table).filter(query).limit(1).run(this.client, function (err, res) {
                 if (err) reject(err);
-                resolve(res ? res.toArray(): []);
+                resolve(res ? res.toArray(): null);
             });
         }.bind(this));
     }
