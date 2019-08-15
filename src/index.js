@@ -223,9 +223,17 @@ class RethinkDBAdapter {
         return new Promise(function (resolve, reject) {
             r.table(this.table).insert(entity).run(this.client, function (err, res) {
                 if (err) reject(err);
-                resolve(
-                    this.findById(res.generated_keys[0])
-                );
+
+                // We were passed an ID which causes the following statement to crash
+                // Here we'll simply return the object which was passed to us originally
+                if (typeof entity.id === "string") {
+                    return entity;
+                }
+
+                // We'll now return the original object but we'll merge the newly generated ID into it
+                const { generated_keys: [firstKey] } = res;
+                resolve(Object.assign({}, entity, { id: firstKey }));
+
             }.bind(this));
         }.bind(this));
     }
