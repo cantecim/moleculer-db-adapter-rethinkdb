@@ -24,10 +24,8 @@ const fakeCursor = {
 let fakeRunResult = jest.fn(() => []);
 const fakeRunnablePromise = {
     run: jest.fn((conn, cb) => {
-        if (cb)
-            cb(null, fakeRunResult());
-        else
-            return Promise.resolve(fakeCursor);
+        if (cb) cb(null, fakeRunResult());
+        else return Promise.resolve(fakeCursor);
     })
 };
 
@@ -96,7 +94,7 @@ describe("Test RethinkDBAdapter", () => {
         expect(adapter.removeById).toBeInstanceOf(Function);
         expect(adapter.clear).toBeInstanceOf(Function);
         expect(adapter.beforeSaveTransformID).toBeInstanceOf(Function);
-        expect(adapter.afterRetrieveTransformID).toBeInstanceOf(Function)
+        expect(adapter.afterRetrieveTransformID).toBeInstanceOf(Function);
     });
 
     it("throw error in init if 'database' is not defined", () => {
@@ -128,27 +126,33 @@ describe("Test RethinkDBAdapter", () => {
         fakeConnection.use.mockClear();
         fakeRunnablePromise.run.mockClear();
 
-        return adapter.connect().catch(protectReject).then(() => {
-            expect(rethinkdb.connect).toHaveBeenCalledTimes(1);
+        return adapter
+            .connect()
+            .catch(protectReject)
+            .then(() => {
+                expect(rethinkdb.connect).toHaveBeenCalledTimes(1);
 
-            expect(fakeConnection.use).toHaveBeenCalledTimes(1);
+                expect(fakeConnection.use).toHaveBeenCalledTimes(1);
 
-            expect(rethinkdb.dbList).toHaveBeenCalledTimes(1);
-            expect(rethinkdb.dbCreate).toHaveBeenCalledTimes(1);
-            expect(rethinkdb.dbCreate).toHaveBeenCalledWith(service.schema.database);
+                expect(rethinkdb.dbList).toHaveBeenCalledTimes(1);
+                expect(rethinkdb.dbCreate).toHaveBeenCalledTimes(1);
+                expect(rethinkdb.dbCreate).toHaveBeenCalledWith(service.schema.database);
 
-            expect(rethinkdb.tableList).toHaveBeenCalledTimes(1);
-            expect(rethinkdb.tableCreate).toHaveBeenCalledTimes(1);
-            expect(rethinkdb.tableCreate).toHaveBeenCalledWith(service.schema.table);
-        });
+                expect(rethinkdb.tableList).toHaveBeenCalledTimes(1);
+                expect(rethinkdb.tableCreate).toHaveBeenCalledTimes(1);
+                expect(rethinkdb.tableCreate).toHaveBeenCalledWith(service.schema.table);
+            });
     });
 
     it("call disconnect", () => {
         fakeConnection.close.mockClear();
 
-        return adapter.disconnect().catch(protectReject).then(() => {
-            expect(fakeConnection.close).toHaveBeenCalledTimes(1);
-        });
+        return adapter
+            .disconnect()
+            .catch(protectReject)
+            .then(() => {
+                expect(fakeConnection.close).toHaveBeenCalledTimes(1);
+            });
     });
 
     describe("Test createCursor method", () => {
@@ -235,12 +239,15 @@ describe("Test RethinkDBAdapter", () => {
         adapter.createCursor = jest.fn(() => fakeRunnablePromise);
 
         let params = {};
-        return adapter.find(params).catch(protectReject).then(() => {
-            expect(adapter.createCursor).toHaveBeenCalledTimes(1);
-            expect(adapter.createCursor).toHaveBeenCalledWith(params, false);
+        return adapter
+            .find(params)
+            .catch(protectReject)
+            .then(() => {
+                expect(adapter.createCursor).toHaveBeenCalledTimes(1);
+                expect(adapter.createCursor).toHaveBeenCalledWith(params, false);
 
-            expect(fakeCursor.toArray).toHaveBeenCalledTimes(1);
-        });
+                expect(fakeCursor.toArray).toHaveBeenCalledTimes(1);
+            });
     });
 
     it("call findOne", () => {
@@ -249,35 +256,44 @@ describe("Test RethinkDBAdapter", () => {
         fakeTable.filter.mockClear();
 
         let query = {age: 22};
-        adapter.findOne(query).catch(protectReject).then(() => {
-            expect(fakeTable.filter).toHaveBeenCalledTimes(1);
-            expect(fakeTable.filter).toHaveBeenCalledWith(query);
-            expect(fakeFilter.limit).toHaveBeenCalledTimes(1);
-            expect(fakeCursor.toArray).toHaveBeenCalledTimes(1);
-        });
+        adapter
+            .findOne(query)
+            .catch(protectReject)
+            .then(() => {
+                expect(fakeTable.filter).toHaveBeenCalledTimes(1);
+                expect(fakeTable.filter).toHaveBeenCalledWith(query);
+                expect(fakeFilter.limit).toHaveBeenCalledTimes(1);
+                expect(fakeCursor.toArray).toHaveBeenCalledTimes(1);
+            });
     });
 
     it("call findById", () => {
         fakeTable.get.mockClear();
         const id = 5;
-        return adapter.findById(id).catch(protectReject).then(() => {
-            expect(fakeTable.get).toHaveBeenCalledTimes(1);
-            expect(fakeTable.get).toHaveBeenCalledWith(id);
-        });
+        return adapter
+            .findById(id)
+            .catch(protectReject)
+            .then(() => {
+                expect(fakeTable.get).toHaveBeenCalledTimes(1);
+                expect(fakeTable.get).toHaveBeenCalledWith(id);
+            });
     });
 
     it("call findByIds", () => {
         fakeCursor.toArray.mockClear();
         fakeTable.getAll.mockClear();
-        rethinkdb.args = jest.fn(inp => inp);
+        rethinkdb.args = jest.fn((inp) => inp);
 
         const ids = [5, 8, 10];
-        return adapter.findByIds(ids).catch(protectReject).then(() => {
-            expect(fakeTable.getAll).toHaveBeenCalledTimes(1);
-            expect(fakeTable.getAll).toHaveBeenCalledWith(ids);
+        return adapter
+            .findByIds(ids)
+            .catch(protectReject)
+            .then(() => {
+                expect(fakeTable.getAll).toHaveBeenCalledTimes(1);
+                expect(fakeTable.getAll).toHaveBeenCalledWith(ids);
 
-            expect(fakeCursor.toArray).toHaveBeenCalledTimes(1);
-        });
+                expect(fakeCursor.toArray).toHaveBeenCalledTimes(1);
+            });
     });
 
     it("call count", () => {
@@ -285,12 +301,15 @@ describe("Test RethinkDBAdapter", () => {
         fakeRunnablePromise.run.mockClear();
 
         let params = {};
-        return adapter.count(params).catch(protectReject).then(() => {
-            expect(adapter.createCursor).toHaveBeenCalledTimes(1);
-            expect(adapter.createCursor).toHaveBeenCalledWith(params, true);
-            expect(fakeRunnablePromise.run).toHaveBeenCalledTimes(1);
-            expect(fakeRunnablePromise.run).toHaveBeenCalledWith(adapter.client);
-        });
+        return adapter
+            .count(params)
+            .catch(protectReject)
+            .then(() => {
+                expect(adapter.createCursor).toHaveBeenCalledTimes(1);
+                expect(adapter.createCursor).toHaveBeenCalledWith(params, true);
+                expect(fakeRunnablePromise.run).toHaveBeenCalledTimes(1);
+                expect(fakeRunnablePromise.run).toHaveBeenCalledWith(adapter.client);
+            });
     });
 
     it("call insert", () => {
@@ -299,25 +318,49 @@ describe("Test RethinkDBAdapter", () => {
         fakeTable.get.mockClear();
         fakeTable.get.mockReturnValueOnce({
             run: jest.fn((client, cb) => {
-                cb(null, entity)
+                cb(null, entity);
             })
         });
 
         fakeRunResult = jest.fn(() => ({generated_keys: [1]}));
-        return adapter.insert(entity).catch(protectReject).then(res => {
-            expect(fakeTable.get).toHaveBeenCalledTimes(1);
-            expect(fakeTable.get).toHaveBeenCalledWith(1);
-            expect(res).toEqual(entity);
-            expect(fakeTable.insert).toHaveBeenCalledTimes(1);
-            expect(fakeTable.insert).toHaveBeenCalledWith(entity);
+        return adapter
+            .insert(entity)
+            .catch(protectReject)
+            .then((res) => {
+                expect(fakeTable.get).toHaveBeenCalledTimes(1);
+                expect(fakeTable.get).toHaveBeenCalledWith(1);
+                expect(res).toEqual(entity);
+                expect(fakeTable.insert).toHaveBeenCalledTimes(1);
+                expect(fakeTable.insert).toHaveBeenCalledWith(entity);
+            });
+    });
+
+    it("call insert with id", () => {
+        let entity = {a: 5, id: "5"};
+
+        fakeTable.get.mockClear();
+        fakeTable.insert.mockClear();
+
+        fakeTable.get.mockReturnValueOnce({
+            run: jest.fn((client, cb) => {
+                cb(null, entity);
+            })
         });
+
+        return adapter
+            .insert(entity)
+            .catch(protectReject)
+            .then((res) => {
+                expect(fakeTable.get).toHaveBeenCalledTimes(1);
+                expect(fakeTable.get).toHaveBeenCalledWith("5");
+                expect(res).toEqual(entity);
+                expect(fakeTable.insert).toHaveBeenCalledTimes(1);
+                expect(fakeTable.insert).toHaveBeenCalledWith(entity);
+            });
     });
 
     it("call insertMany", () => {
-        let entities = [
-            {a: 5},
-            {a: 10}
-        ];
+        let entities = [{a: 5}, {a: 10}];
 
         fakeTable.insert.mockClear();
         fakeTable.getAll.mockClear();
@@ -330,13 +373,16 @@ describe("Test RethinkDBAdapter", () => {
         });
 
         fakeRunResult = jest.fn(() => ({generated_keys: [1, 2]}));
-        return adapter.insertMany(entities).catch(protectReject).then(res => {
-            expect(fakeTable.getAll).toHaveBeenCalledTimes(1);
-            expect(fakeTable.getAll).toHaveBeenCalledWith([1, 2]);
-            expect(res).toEqual(entities);
-            expect(fakeTable.insert).toHaveBeenCalledTimes(1);
-            expect(fakeTable.insert).toHaveBeenCalledWith(entities);
-        });
+        return adapter
+            .insertMany(entities)
+            .catch(protectReject)
+            .then((res) => {
+                expect(fakeTable.getAll).toHaveBeenCalledTimes(1);
+                expect(fakeTable.getAll).toHaveBeenCalledWith([1, 2]);
+                expect(res).toEqual(entities);
+                expect(fakeTable.insert).toHaveBeenCalledTimes(1);
+                expect(fakeTable.insert).toHaveBeenCalledWith(entities);
+            });
     });
 
     it("call updateMany", () => {
@@ -346,69 +392,87 @@ describe("Test RethinkDBAdapter", () => {
         fakeTable.filter.mockClear();
         fakeFilter.update.mockClear();
         fakeRunResult = jest.fn(() => ({replaced: 2}));
-        return adapter.updateMany(query, update).catch(protectReject).then(res => {
-            expect(res.replaced).toEqual(2);
-            expect(fakeTable.filter).toHaveBeenCalledTimes(1);
-            expect(fakeTable.filter).toHaveBeenCalledWith(query);
-            expect(fakeFilter.update).toHaveBeenCalledTimes(1);
-            expect(fakeFilter.update).toHaveBeenCalledWith(update);
-        });
+        return adapter
+            .updateMany(query, update)
+            .catch(protectReject)
+            .then((res) => {
+                expect(res.replaced).toEqual(2);
+                expect(fakeTable.filter).toHaveBeenCalledTimes(1);
+                expect(fakeTable.filter).toHaveBeenCalledWith(query);
+                expect(fakeFilter.update).toHaveBeenCalledTimes(1);
+                expect(fakeFilter.update).toHaveBeenCalledWith(update);
+            });
     });
 
     it("call updateById", () => {
         let update = {};
-        const doc = {id: 1};
+        const doc = {id: "1"};
 
         fakeTable.filter.mockClear();
         fakeTable.get.mockClear();
         fakeFilter.update.mockClear();
         fakeRunResult = jest.fn(() => doc);
         let intermediateGet;
-        fakeTable.get.mockReturnValueOnce(intermediateGet = {
-            update: jest.fn(() => fakeRunnablePromise)
-        });
-        return adapter.updateById(1, update).catch(protectReject).then(res => {
-            expect(res).toEqual(doc);
-            expect(fakeTable.get).toHaveBeenCalledTimes(2);
-            expect(fakeTable.get).toHaveBeenCalledWith(1);
-            expect(intermediateGet.update).toHaveBeenCalledTimes(1);
-            expect(intermediateGet.update).toHaveBeenCalledWith(update);
-        });
+        fakeTable.get.mockReturnValueOnce(
+            (intermediateGet = {
+                update: jest.fn(() => fakeRunnablePromise)
+            })
+        );
+        return adapter
+            .updateById(1, update)
+            .catch(protectReject)
+            .then((res) => {
+                expect(res).toEqual(doc);
+                expect(fakeTable.get).toHaveBeenCalledTimes(2);
+                expect(fakeTable.get).toHaveBeenCalledWith(1);
+                expect(intermediateGet.update).toHaveBeenCalledTimes(1);
+                expect(intermediateGet.update).toHaveBeenCalledWith(update);
+            });
     });
 
     it("call removeMany", () => {
         let query = {};
         fakeTable.filter.mockClear();
 
-        return adapter.removeMany(query).catch(protectReject).then(() => {
-            expect(fakeTable.filter).toHaveBeenCalledTimes(1);
-            expect(fakeTable.filter).toHaveBeenCalledWith(query);
-            expect(fakeFilter.delete).toHaveBeenCalledTimes(1);
-        });
+        return adapter
+            .removeMany(query)
+            .catch(protectReject)
+            .then(() => {
+                expect(fakeTable.filter).toHaveBeenCalledTimes(1);
+                expect(fakeTable.filter).toHaveBeenCalledWith(query);
+                expect(fakeFilter.delete).toHaveBeenCalledTimes(1);
+            });
     });
 
     it("call removeById", () => {
         fakeTable.get.mockClear();
         let intermediateGet;
-        fakeTable.get.mockReturnValueOnce(intermediateGet = {
-            delete: jest.fn(() => fakeRunnablePromise)
-        });
-        return adapter.removeById(5).catch(protectReject).then(() => {
-            expect(fakeTable.get).toHaveBeenCalledTimes(1);
-            expect(fakeTable.get).toHaveBeenCalledWith(5);
+        fakeTable.get.mockReturnValueOnce(
+            (intermediateGet = {
+                delete: jest.fn(() => fakeRunnablePromise)
+            })
+        );
+        return adapter
+            .removeById(5)
+            .catch(protectReject)
+            .then(() => {
+                expect(fakeTable.get).toHaveBeenCalledTimes(1);
+                expect(fakeTable.get).toHaveBeenCalledWith(5);
 
-            expect(intermediateGet.delete).toHaveBeenCalledTimes(1);
-        });
+                expect(intermediateGet.delete).toHaveBeenCalledTimes(1);
+            });
     });
 
     it("call clear", () => {
         rethinkdb.table.mockClear();
 
-        return adapter.clear().catch(protectReject).then(() => {
-            expect(fakeTable.delete).toHaveBeenCalledTimes(1);
-            expect(rethinkdb.table).toHaveBeenCalledTimes(1);
-            expect(rethinkdb.table).toHaveBeenCalledWith(service.schema.table);
-        });
+        return adapter
+            .clear()
+            .catch(protectReject)
+            .then(() => {
+                expect(fakeTable.delete).toHaveBeenCalledTimes(1);
+                expect(rethinkdb.table).toHaveBeenCalledTimes(1);
+                expect(rethinkdb.table).toHaveBeenCalledWith(service.schema.table);
+            });
     });
-
 });
