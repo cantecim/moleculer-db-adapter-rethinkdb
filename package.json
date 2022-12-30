@@ -30,7 +30,7 @@
     "devDependencies": {
         "coveralls": "^3.0.2",
         "eslint": "^5.12.1",
-        "jest": "^23.6.0",
+        "jest": "^29.3.1",
         "moleculer": "^0.13.5",
         "moleculer-db": "^0.7.7"
     },
